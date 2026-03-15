@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Page not found — Alpha Toolkit" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>404 — Page Not Found · Alpha Toolkit</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/images/favicon.svg" />
+  <meta name="theme-color" content="#0d1117" />
+</head>
+<body>
+
+  <!-- ░ Toast Notifications ░ -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ░ Background FX ░ -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--2" aria-hidden="true"></div>
+
+  <!-- ░ Navigation ░ -->
+  <header>
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+      <div class="nav-container">
+        <a href="index.html" class="nav-brand" aria-label="Alpha Toolkit home">
+          <span class="brand-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+              <defs>
+                <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00d4ff"/>
+                  <stop offset="100%" stop-color="#7c3aed"/>
+                </linearGradient>
+              </defs>
+              <rect width="32" height="32" rx="7" fill="#0d1117"/>
+              <polygon points="16,2.5 28,9.5 28,22.5 16,29.5 4,22.5 4,9.5" stroke="url(#hexGrad)" stroke-width="1.8" fill="none"/>
+              <path d="M10.5 16 L16 9.5 L21.5 16 L16 22.5 Z" fill="url(#hexGrad)"/>
+            </svg>
+          </span>
+          <span class="brand-name">Alpha<span class="brand-accent">Toolkit</span></span>
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li>
+            <a href="index.html#tools-hub" class="nav-link">Browse All Tools</a>
+          </li>
+        </ul>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+
+      <!-- Mobile nav -->
+      <div class="nav-mobile" id="navLinks" hidden>
+        <ul role="list">
+          <li><a href="index.html" class="nav-mobile-link">Home</a></li>
+          <li><a href="index.html#tools-hub" class="nav-mobile-link">Browse All 78 Tools</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section
+      style="
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        min-height:calc(100vh - var(--nav-h, 64px) - 120px);
+        padding: 4rem 1.5rem;
+        text-align:center;
+      "
+      aria-labelledby="notFoundTitle"
+    >
+      <!-- Large 404 number -->
+      <p
+        aria-hidden="true"
+        style="
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: clamp(5rem, 20vw, 10rem);
+          font-weight: 700;
+          line-height: 1;
+          margin-bottom: 1.5rem;
+          background: linear-gradient(135deg, var(--cyan, #00d4ff) 0%, var(--purple, #7c3aed) 60%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.04em;
+          user-select: none;
+        "
+      >404</p>
+
+      <h1
+        id="notFoundTitle"
+        style="
+          font-size: clamp(1.4rem, 4vw, 2rem);
+          font-weight: 700;
+          color: var(--text-primary, #f0f6fc);
+          margin-bottom: 1rem;
+          letter-spacing: -0.02em;
+        "
+      >Page not found</h1>
+
+      <p
+        style="
+          font-size: clamp(0.9rem, 2vw, 1.05rem);
+          color: var(--text-muted, #7d8590);
+          max-width: 420px;
+          line-height: 1.7;
+          margin-bottom: 2.5rem;
+        "
+      >
+        The page you're looking for doesn't exist or may have been moved.
+        Every tool is still here — head back and find what you need.
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;">
+        <a href="index.html" class="btn btn--primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6"/>
+          </svg>
+          Go Home
+        </a>
+        <a href="index.html#tools-hub" class="btn btn--ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Browse 78 Tools
+        </a>
+      </div>  
+      <!-- Subtle decoration: a horizontal rule with a label -->
+      <p
+        aria-hidden="true"
+        style="
+          margin-top: 4rem;
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.72rem;
+          color: var(--text-muted, #7d8590);
+          opacity: 0.5;
+          letter-spacing: 0.08em;
+        "
+      >HTTP 404 · Nothing Lives Here</p>
+    </section>
+  </main>
+
+  <!-- ░ Footer ░ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="brand-name">Alpha<span class="brand-accent">Toolkit</span></span>
+          <p class="footer-tagline">Privacy-first developer utilities. Everything runs in your browser.</p>
+        </div>
+        <div class="footer-social">
+          <a href="https://github.com/byalphas" target="_blank" rel="noopener" class="social-link" aria-label="GitHub profile of byalphas">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>byalphas</span>
+          </a>
+          <a href="https://buymeacoffee.com/byalpha" target="_blank" rel="noopener" class="social-link social-link--coffee" aria-label="Buy me a coffee">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            <span>Buy me a coffee</span>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 AlphaToolkit. No data leaves your device.</p>
+        <p class="footer-tech">78 tools · HTML · CSS · Vanilla JS · Web Crypto API</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/core/utils.js" defer></script>
+  <script src="assets/js/core/nav.js" defer></script>
+</body>
+</html>

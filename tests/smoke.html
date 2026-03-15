@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smoke Tests — Alpha Toolkit</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--2" aria-hidden="true"></div>
+
+  <main class="container" style="padding-top:3rem; padding-bottom:3rem;">
+
+    <div style="margin-bottom:2rem;">
+      <h1 style="font-size:1.75rem; font-weight:700; margin-bottom:.4rem;">
+        Alpha Toolkit — Smoke Tests
+      </h1>
+      <p style="color:var(--text-muted, #888); font-size:.95rem;">
+        Standalone browser-based test runner. No network required.
+      </p>
+    </div>
+
+    <!-- Summary banner (filled by JS) -->
+    <div id="summary" class="card" style="margin-bottom:1.5rem; padding:1rem 1.5rem; display:none;">
+      <span id="summary-text" style="font-weight:600; font-size:1.05rem;"></span>
+    </div>
+
+    <!-- Results list -->
+    <div class="card glass" id="results" role="list" aria-label="Test results"
+         style="padding:0; overflow:hidden;">
+    </div>
+
+    <!-- Re-run button -->
+    <div style="margin-top:1.5rem; text-align:right;">
+      <button class="btn" id="rerun-btn" onclick="runAll()">Re-run tests</button>
+    </div>
+
+  </main>
+
+  <!-- Load shared utilities first -->
+  <script src="../assets/js/core/utils.js"></script>
+
+  <script>
+    /* ───────────────────────────────────────────────────────────
+       Minimal test runner
+       ─────────────────────────────────────────────────────────── */
+
+    const _results = [];
+
+    /**
+     * Define and immediately run a named test.
+     * fn may be sync or async; any thrown Error is treated as FAIL.
+     * @param {string} name
+     * @param {function(): void | Promise<void>} fn
+     */
+    async function test(name, fn) {
+      let status = 'pass';
+      let detail = '';
+      try {
+        await fn();
+      } catch (err) {
+        status = 'fail';
+        detail = err && err.message ? err.message : String(err);
+      }
+      _results.push({ name, status, detail });
+      _renderRow({ name, status, detail });
+    }
+
+    function assert(condition, msg) {
+      if (!condition) throw new Error(msg || 'Assertion failed');
+    }
+
+    /* ───────────────────────────────────────────────────────────
+       Rendering helpers
+       ─────────────────────────────────────────────────────────── */
+
+    function _renderRow({ name, status, detail }) {
+      const container = document.getElementById('results');
+
+      const row = document.createElement('div');
+      row.setAttribute('role', 'listitem');
+      row.style.cssText = [
+        'display:flex',
+        'align-items:flex-start',
+        'gap:.75rem',
+        'padding:.85rem 1.25rem',
+        'border-bottom:1px solid var(--border, rgba(255,255,255,.06))',
+        'font-size:.9rem',
+      ].join(';');
+
+      const badge = document.createElement('span');
+      badge.style.cssText = [
+        'flex-shrink:0',
+        'width:1.5rem',
+        'height:1.5rem',
+        'border-radius:50%',
+        'display:inline-flex',
+        'align-items:center',
+        'justify-content:center',
+        'font-weight:700',
+        'font-size:.75rem',
+        status === 'pass'
+          ? 'background:#16a34a;color:#fff;'
+          : 'background:#dc2626;color:#fff;',
+      ].join(';');
+      badge.textContent = status === 'pass' ? '✓' : '✕';
+      badge.setAttribute('aria-label', status);
+
+      const body = document.createElement('div');
+      body.style.cssText = 'flex:1; min-width:0;';
+
+      const label = document.createElement('span');
+      label.textContent = name;
+      label.style.fontWeight = '500';
+      body.appendChild(label);
+
+      if (detail) {
+        const err = document.createElement('div');
+        err.textContent = detail;
+        err.style.cssText = 'color:#f87171; font-size:.8rem; margin-top:.2rem; font-family:monospace;';
+        body.appendChild(err);
+      }
+
+      row.appendChild(badge);
+      row.appendChild(body);
+      container.appendChild(row);
+    }
+
+    function _renderSummary() {
+      const total  = _results.length;
+      const passed = _results.filter(r => r.status === 'pass').length;
+      const failed = total - passed;
+
+      const banner  = document.getElementById('summary');
+      const textEl  = document.getElementById('summary-text');
+
+      banner.style.display = '';
+      banner.style.borderLeft = failed === 0
+        ? '4px solid #16a34a'
+        : '4px solid #dc2626';
+
+      textEl.style.color = failed === 0 ? '#4ade80' : '#f87171';
+      textEl.textContent = failed === 0
+        ? `All ${total} tests passed`
+        : `${passed} / ${total} passed — ${failed} failed`;
+    }
+
+    /* ───────────────────────────────────────────────────────────
+       Test suite
+       ─────────────────────────────────────────────────────────── */
+
+    async function runAll() {
+      // Reset state
+      _results.length = 0;
+      document.getElementById('results').innerHTML = '';
+      document.getElementById('summary').style.display = 'none';
+
+      /* --- secureRandInt ---------------------------------------- */
+      await test('secureRandInt(10) returns a number', () => {
+        const v = secureRandInt(10);
+        assert(typeof v === 'number', `Expected number, got ${typeof v}`);
+      });
+
+      await test('secureRandInt(10) is in range [0, 10)', () => {
+        for (let i = 0; i < 200; i++) {
+          const v = secureRandInt(10);
+          assert(v >= 0 && v < 10,
+            `Value ${v} is outside [0, 10)`);
+        }
+      });
+
+      await test('secureRandInt(1) always returns 0', () => {
+        for (let i = 0; i < 20; i++) {
+          const v = secureRandInt(1);
+          assert(v === 0, `Expected 0, got ${v}`);
+        }
+      });
+
+      /* --- bufferToHex ------------------------------------------ */
+      await test('bufferToHex converts known buffer correctly', () => {
+        // [0x00, 0xff, 0x0a, 0xf0] → "00ff0af0"
+        const buf = new Uint8Array([0x00, 0xff, 0x0a, 0xf0]).buffer;
+        const hex = bufferToHex(buf);
+        assert(hex === '00ff0af0',
+          `Expected "00ff0af0", got "${hex}"`);
+      });
+
+      await test('bufferToHex empty buffer returns empty string', () => {
+        const hex = bufferToHex(new ArrayBuffer(0));
+        assert(hex === '', `Expected "", got "${hex}"`);
+      });
+
+      await test('bufferToHex single zero byte returns "00"', () => {
+        const hex = bufferToHex(new Uint8Array([0]).buffer);
+        assert(hex === '00', `Expected "00", got "${hex}"`);
+      });
+
+      /* --- copyToClipboard -------------------------------------- */
+      await test('copyToClipboard with empty string triggers error toast', () => {
+        // Patch showToast temporarily to capture the call
+        let capturedType = null;
+        const original = window.showToast;
+        window.showToast = (_msg, type) => { capturedType = type; };
+        // Call with empty string — must call showToast('Nothing to copy', 'error')
+        copyToClipboard('');
+        window.showToast = original;
+        assert(capturedType === 'error',
+          `Expected toast type "error", got "${capturedType}"`);
+      });
+
+      /* --- formatBytes ------------------------------------------ */
+      await test('formatBytes(0) returns "0 Bytes"', () => {
+        const result = formatBytes(0);
+        assert(result === '0 Bytes',
+          `Expected "0 Bytes", got "${result}"`);
+      });
+
+      await test('formatBytes(1024) returns "1 KB"', () => {
+        const result = formatBytes(1024);
+        assert(result === '1 KB',
+          `Expected "1 KB", got "${result}"`);
+      });
+
+      await test('formatBytes(1048576) returns "1 MB"', () => {
+        const result = formatBytes(1048576);
+        assert(result === '1 MB',
+          `Expected "1 MB", got "${result}"`);
+      });
+
+      /* --- escapeHTML ------------------------------------------- */
+      await test('escapeHTML("<script>") returns "&lt;script&gt;"', () => {
+        const result = escapeHTML('<script>');
+        assert(result === '&lt;script&gt;',
+          `Expected "&lt;script&gt;", got "${result}"`);
+      });
+
+      await test('escapeHTML escapes ampersand', () => {
+        const result = escapeHTML('a & b');
+        assert(result === 'a &amp; b',
+          `Expected "a &amp; b", got "${result}"`);
+      });
+
+      await test('escapeHTML escapes double-quote', () => {
+        const result = escapeHTML('"hello"');
+        assert(result === '&quot;hello&quot;',
+          `Expected '&quot;hello&quot;', got "${result}"`);
+      });
+
+      await test('escapeHTML leaves plain text unchanged', () => {
+        const result = escapeHTML('hello world');
+        assert(result === 'hello world',
+          `Expected "hello world", got "${result}"`);
+      });
+
+      _renderSummary();
+    }
+
+    // Auto-run on load
+    runAll();
+  </script>
+</body>
+</html>

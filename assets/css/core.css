@@ -1,0 +1,179 @@
+/* ═══════════════════════════════════════════════════════════
+   ALPHA TOOLKIT — core.css
+   CSS Custom Properties · Reset · Base · Background FX
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 0. Self-hosted Fonts ──────────────────────────────────── */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/SpaceGrotesk.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono.ttf') format('truetype');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono-Italic.ttf') format('truetype');
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── 1. CSS Custom Properties ─────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-base:     #05070f;
+  --bg-surface:  #0b0f1e;
+  --bg-elevated: #111829;
+  --bg-card:     rgba(15, 20, 40, 0.55);
+
+  /* Brand colours */
+  --cyan:       #00d4ff;
+  --cyan-dim:   rgba(0, 212, 255, 0.15);
+  --cyan-glow:  rgba(0, 212, 255, 0.35);
+  --purple:     #7c3aed;
+  --purple-dim: rgba(124, 58, 237, 0.15);
+
+  /* Status */
+  --green:  #10d97e;
+  --yellow: #f5c542;
+  --red:    #ff4d6a;
+
+  /* Text */
+  --text-primary:   #e8efff;
+  --text-secondary: #8892a4;
+  --text-muted:     #4a5568;
+  --text-code:      #a5f3fc;
+
+  /* Borders */
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.14);
+
+  /* Typography */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-ui:   var(--font-sans);
+
+  /* Layout */
+  --nav-h:     68px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius:    var(--radius-md);
+
+  /* Motion */
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shadows */
+  --shadow-card: 0 8px 40px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset;
+}
+
+/* ── 2. Reset & Base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+ul, ol   { list-style: none; }
+a        { color: inherit; text-decoration: none; }
+button   { font-family: inherit; }
+
+/* ── 3. Screen-reader only ────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── 4. Background FX ─────────────────────────────────────── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.bg-glow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(120px);
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+.bg-glow--1 {
+  width: 600px; height: 600px;
+  top: -200px; left: -200px;
+  background: rgba(124, 58, 237, 0.12);
+}
+
+.bg-glow--2 {
+  width: 500px; height: 500px;
+  bottom: -150px; right: -150px;
+  background: rgba(0, 212, 255, 0.08);
+  animation-delay: -4s;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* ── 5. Selection ─────────────────────────────────────────── */
+::selection {
+  background: rgba(0, 212, 255, 0.25);
+  color: var(--text-primary);
+}
+
+/* ── 6. Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.3); }
+
+/* ── 7. Focus & Accessibility ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+a:focus-visible,
+button:focus-visible { outline-radius: var(--radius-sm); }
